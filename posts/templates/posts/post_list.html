@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8faf8;
+        }
+        .container-fluid {
+            width: 100%;
+        }
+        .text-container {
+            background-color: #343A40;
+            width: 100%;
+            height: 48px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .text1 .link {
+            color: #ffffff;
+            width: 45px;
+            margin: 8px 10px 0 30px;
+            display: inline-block;
+        }
+        .text1 .link:hover {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .search-button-container {
+            background-color: #ffffff;
+            width: 320px;
+            height: 30px;
+            border-radius: 3px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-button {
+            background-color: #ffffff;
+            margin-left: 6px;
+            margin-bottom: 5px;
+        }
+        .search {
+            width: 340px;
+            height: 30px;
+            margin-top: 9px;
+        }
+        .empty {
+            margin-left: 73px;
+        }
+        .text2-container {
+            display: flex;
+            align-items: center;
+            margin-left: 14px;
+        }
+        .bi-list {
+            width: 25px;
+            height: 25px;
+            margin-bottom: 3px;
+        }
+        .text2 {
+            margin-top: 5px;
+            margin-left: 35px;
+            font-weight: bold;
+            font-size: 23px;
+        }
+        .text3 {
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+        .input-container {
+            background-color: #ffffff;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 52px;
+        }
+        .bi-check-circle {
+            margin-bottom: 3px;
+            margin-left: 15px;
+        }
+        .input-work {
+            margin-top: 2px;
+            padding-bottom: 7px;
+            width: 90%;
+            height: 42px;
+        }
+        .add-button-container {
+            background-color: #FAF9F8;
+            padding-left: 8px;
+            padding-right: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 44.8px;
+        }
+        .due_date {
+            background-color: #FAF9F8;
+            width: 130px;
+            height: 30px;
+            margin-top: 7px;
+        }
+        .bi-calendar3 {
+            margin-top: 14px;
+        }
+        .btn-primary {
+            float: right;
+            width: 41.6px;
+            height: 36px;
+            font-size: 12px;
+            background-color: #343A40;
+            border-color: #343A40;
+            outline: none;
+            margin-top: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #343A40;
+            border-color: #343A40;
+        }
+        input {
+            border: none;
+            outline: none;
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border-radius: 3px;
+        }
+        .thead-container {
+            width: 10px;
+        }
+        .table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        th, td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .thead1, .td1 {
+            width: 100px;
+        }
+        .thead2, .td2 {
+            width: 1110px;
+        }
+        .thead4, .td4 {
+            width: 80px;
+        }
+        @media (max-width: 768px) {
+            .thead1, .td1 {
+                width: 80px;
+            }
+            .thead2, .td2 {
+                width: 120px;
+            }
+            .thead4, .td4 {
+                width: 75px;
+            }
+        }
+        .text4 {
+            font-size: 14px;
+            margin-left: 5px;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        .completed-table {
+            display: none;
+        }
+        .show {
+            display: table;
+        }
+        .rotate-down {
+            transform: rotate(90deg);
+            transition: transform 0.3s;
+        }
+        .rotate-up {
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+        html.open {
+            overflow: hidden;
+        }
+        .btn {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            margin-top: 67px;
+            margin-left: 6px;
+            left: 0px;
+            top: 0px;
+            z-index: 1;
+            background-size: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        .close {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-size: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        .text-container {
+            position: relative;
+            z-index: 20;
+        }
+        #menu {   
+            width: 240px;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            left: -242px;
+            z-index: 10;
+            border: 1px solid #c9c9c9;
+            background-color: white;
+            text-align: center;
+            font-weight: bold;
+            transition: All 0.2s ease;
+            -webkit-transition: All 0.2s ease;
+            -moz-transition: All 0.2s ease;
+            -o-transition: All 0.2s ease;
+            padding-top: 50px;
+            padding-left: 0px;
+            padding-right: 40px;
+        }
+        #menu.open {
+            left: 0px;
+        }
+        .page_cover.open {
+            display: block;
+        }
+        /* .page_cover {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            right: 0px;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 4;
+            display: none;
+        } */
+        #menu ul { 
+            width: 238px;
+            height: 100px;
+            margin:0; 
+            padding:0;
+            margin-top: 70px;
+        }
+        #menu ul.nav li {
+            position:relative; 
+            float:left; 
+            width:100%; 
+            list-style-type:none; 
+            font-size:18px;
+        }
+        #menu ul.nav li a {
+            display:block; 
+            width:100%; 
+            height:100%; 
+            line-height:50px; 
+            text-indent:20px;
+            text-align: left;
+            color:#000000; 
+            font-weight:bold; 
+            text-decoration:none;
+        }
+        #menu ul.nav li a:hover {
+            background:#eee;
+        }
+        #menu ul.nav li .sub_mobile a {
+            position:relative;
+            float:left;
+            display:block;
+            width:100%;
+            z-index:999;
+            background:#ccc;
+        }
+        #menu ul.nav li .sub_mobile a:hover {
+            background:#787878;
+            color:#fff;
+            z-index:999;
+        }
+        #side-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background-color: #343A40;
+            color: white;
+            transition: right 0.3s ease;
+            z-index: 10;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .side-nav {
+            list-style: none;
+            padding: 0;
+            margin-top: 200px;
+        }
+        .side-manu-div {
+            height: 100%;
+            overflow: hidden;
+        }
+        #side-menu-content {
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        #side-menu.open {
+            right: 0;
+        }
+        .no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+        .post-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .post-datails2 {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .detail-item1 {
+            flex: 0 0 45px;
+        }
+        .detail-item2 {
+            flex: 1 1 200px;
+            min-width: 100px;
+            overflow-wrap: break-word;
+        }
+        .detail-item3 {
+            margin-right: 12px;
+        }
+        .detail-item4 {
+            margin-top: 10px;
+            margin-left: 15px;
+        }
+        .detail-item5 {
+            margin-left: 303px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            // 중요도 아이콘 클릭 이벤트를 처리한다.
+            // 클릭 시 아이콘을 변경하고 AJAX 요청을 통해 priority의 값을 업데이트한다.
+            $(document).on('click', '.star-icon', function() {
+                var $icon = $(this);
+                var postId = $icon.data('post-id');
+                var isPriority = $icon.data('priority');
+                
+                if (isPriority) {
+                    $icon.removeClass('bi-star-fill').addClass('bi-star');
+                } else {
+                    $icon.removeClass('bi-star').addClass('bi-star-fill');
+                }
+                
+                $.ajax({
+                    url: '/priority_update/' + postId + '/',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': getCsrfToken(),
+                        'priority': !isPriority
+                    },
+                    success: function(response) {
+                        if (response.priority !== isPriority) {
+                            $icon.data('priority', response.priority);
+                            location.reload(); // 페이지를 새로고침
+                        }
+                    },
+                    error: function() {
+                        if (isPriority) {
+                            $icon.removeClass('bi-star').addClass('bi-star-fill');
+                        } else {
+                            $icon.removeClass('bi-star-fill').addClass('bi-star');
+                        }
+                    }
+                });
+            });
+    
+            // 완료 아이콘 클릭 이벤트를 처리한다.
+            $(document).on('click', '.bi-circle, .bi-check-circle', function() {
+                var $icon = $(this);
+                var postId = $icon.data('post-id'); 
+                
+                $.ajax({
+                    url: '/completed_update/' + postId + '/',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        if (response.is_completed) {
+                            $icon.attr('class', 'bi bi-check-circle');  // 완료 아이콘으로 변경
+                            location.reload();
+                        } else {
+                            $icon.attr('class', 'bi bi-circle');  // 미완료 아이콘으로 변경
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+                        console.error('완료 아이콘 변경 실패');
+                    }
+                });
+            });
+    
+            // toggle-completed 클릭 시 completed-table 토글
+            $('.toggle-completed').click(function(){
+                var $icon = $(this).find('svg');
+                $('.completed-table').toggleClass('show');
+    
+                if ($('.completed-table').hasClass('show')) {
+                    $icon.removeClass('rotate-up').addClass('rotate-down');
+                    localStorage.setItem('completedTableVisible', 'true');
+                } else {
+                    $icon.removeClass('rotate-down').addClass('rotate-up');
+                    localStorage.setItem('completedTableVisible', 'false');
+                }
+            });
+    
+            // 페이지 새로고침 시 로컬 저장소에서 상태를 확인한다. (완료됨 버튼이 활성화 상태인지 아닌지 판별 )
+            if (localStorage.getItem('completedTableVisible') === 'true') {
+                $('.completed-table').addClass('show');
+                $('.toggle-completed svg').removeClass('rotate-up').addClass('rotate-down');
+            }
+
+            function getCsrfToken() {
+                var token = null;
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.startsWith('csrftoken=')) {
+                        token = cookie.substring('csrftoken='.length, cookie.length);
+                        break;
+                    }
+                }
+                return token;
+            }
+    
+            // 사이드 메뉴 열기/닫기
+            // td2 클릭 시 사이드 메뉴를 연다.
+            $(document).on('click', '.td2', function() {
+                var postId = $(this).data('post-id');  // 클릭된 td2의 데이터 속성에서 postId를 가져온다.
+
+                // AJAX 요청으로 서버에서 Todo의 세부 정보를 가져온다.
+                $.ajax({
+                    url: '/post/' + postId + '/',
+                    method: 'GET',
+                    success: function(data) {
+                        // 서버로부터 받은 데이터를 사이드 메뉴에 표시한다.
+                        var postContent = data.content;
+                        var dueDate = data.due_date;
+                        var isCompleted = data.is_completed;
+                        var priority = data.priority;
+
+                        // isCompleted가 True일 경우 bi-check-circle 아이콘을, False일 경우 bi-circle 아이콘을 completionIcon에 저장한다.
+                        var completionIcon = isCompleted ? 
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16" data-post-id="' + postId + '"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>' :
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16" style="margin-left: 15px; margin-bottom: 2px;" data-post-id="' + postId + '"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/></svg>';
+
+                        // 생략
+                        var priorityIcon = priority ?
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star-fill" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="' + postId + '" data-priority="{{ post.priority }}"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>' :
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="' + postId + '" data-priority="{{ post.priority }}"><path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/></svg>'
+
+                        // script 아래에 있는 html의 class="side-menu-content" 위치에 들어갈 html을 contentHtml에 저장한다.
+                        var contentHtml = `
+                            <div class="post-details">
+                                <div class="detail-item1">${completionIcon}</div>
+                                <div class="detail-item2" contenteditable="true">${postContent}</div>
+                                <div class="detail-item3">${priorityIcon}</div>
+                            </div>
+                            <div class="detail-item4">${dueDate}</div>
+                            <div class="post-datails2"> 
+                                <div class="detail-item5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        `;
+                        $("#side-menu-content").html(contentHtml);
+
+                        // 수정한 contant를 업데이트한다.
+                        $(".detail-item2").on('input', function() {
+                            var updatedContent = $(this).text();
+                            $.ajax({
+                                url: '/post/' + postId + '/update/',
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': getCsrfToken()
+                                },
+                                data: {
+                                    content: updatedContent
+                                },
+                                success: function(response) {
+                                },
+                                error: function() {
+                                    alert('contant 업데이트 실패');
+                                }
+                            });
+                        });
+
+                        // 수정한 due_date를 업데이트한다.
+                        $(".detail-item4").click(function() {
+                            var input = $('<input type="date" class="date-input">');
+                            input.val(dueDate);
+                            input.attr('min', currentDate); // 현재 날짜 이전은 선택 불가하도록 설정
+                            $(this).html(input);
+                            input.focus();
+
+                            input.on("change", function() {
+                                var newDate = $(this).val();
+                                $.ajax({
+                                    url: '/post/' + postId + '/update/',
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRFToken': getCsrfToken()
+                                    },
+                                    data: {
+                                        due_date: newDate
+                                    },
+                                    success: function(response) {
+                                        $(".detail-item4").html(newDate);
+                                    },
+                                    error: function() {
+                                        alert('due_date 업데이트 실패');
+                                    }
+                                });
+                            });
+
+                            input.on("click", function(event) {
+                                event.stopPropagation();
+                            });
+                        });
+
+                        // 선택한 Todo를 삭제한다.
+                        $(".detail-item5").click(function() {
+                            if (confirm(`"${postContent}"이(가) 영구적으로 삭제됩니다.`)) {
+                                $.ajax({
+                                    url: '/post/' + postId + '/delete',
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRFToken': getCsrfToken()
+                                    },
+                                    success: function(response) {
+                                        $("#side-menu").removeClass("open"); // 사이드 메뉴 닫기
+                                        location.reload();
+                                    },
+                                    error: function() {
+                                        alert('Failed to delete post.');
+                                    }
+                                });
+                            }
+                        });
+
+                        $("#side-menu").toggleClass("open");
+                        manageScroll();
+
+                        if ($("#side-menu").hasClass("open")) {
+                            window.location.hash = "#side-menu-open";
+                        } else {
+                            window.location.hash = "";
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to retrieve post details.');
+                    }
+                });
+            });
+
+            $(".btn").click(function() {
+                $("#menu, .page_cover, html").addClass("open");
+                manageScroll();
+                window.location.hash = "#menu-open";
+            });
+
+            // 메뉴와 사이드 메뉴 바깥을 클릭할 시 메뉴를 닫는다.
+            $(document).mouseup(function(e) {
+                var $sideMenu = $("#side-menu");
+                var $menu = $("#menu");
+                var $btn = $(".btn");
+                var $pageCover = $(".page_cover");
+
+                if (!$sideMenu.is(e.target) && $sideMenu.has(e.target).length === 0) {
+                    if ($sideMenu.hasClass('open')) {
+                        $sideMenu.removeClass('open');
+                        manageScroll();
+                        window.location.hash = "";
+                        if (!$btn.is(e.target) && $btn.has(e.target).length === 0) {
+                            location.reload();
+                        }
+                    }
+                }
+
+                if (!$menu.is(e.target) && $menu.has(e.target).length === 0 && !$btn.is(e.target) && $btn.has(e.target).length === 0 && !$pageCover.is(e.target) && $pageCover.has(e.target).length === 0) {
+                    if ($menu.hasClass('open')) {
+                        $menu.removeClass('open');
+                        $pageCover.removeClass('open');
+                        $("html").removeClass('open');
+                        manageScroll();
+                        window.location.hash = "";
+                        location.reload();
+                    }
+                }
+            });
+
+            // 해시 변경 시 메뉴와 사이드 메뉴를 닫는다.
+            window.onhashchange = function() {
+                if (location.hash !== "#menu-open" && location.hash !== "#side-menu-open") {
+                    $("#menu").removeClass("open");
+                    $(".page_cover").removeClass('open');
+                    $("html").removeClass('open');
+                    $("#side-menu").removeClass("open");
+                    manageScroll();
+                }
+            };
+
+            // 스크롤 관리 함수
+            function manageScroll() {
+                if ($("#menu").hasClass("open") || $("#side-menu").hasClass("open")) {
+                    $("body").addClass("no-scroll");
+                } else {
+                    $("body").removeClass("no-scroll");
+                }
+            }
+
+            // 검색 기능 관리
+            const searchInput = document.getElementById('search');
+
+            searchInput.addEventListener('input', function() {
+                const query = searchInput.value.trim();
+                const encodedQuery = encodeURIComponent(query);
+                const url = query ? `/search/${encodedQuery}/` : `/search/`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+
+                        // 현재 날짜와 dueDate를 비교해서 dueDate가 현재 날짜와 같다면 '오늘', +1이라면 '내일'을 리턴한다.
+                        function formatDueDate(dueDate) {
+                            const today = new Date();
+                            const due = new Date(dueDate);
+                            const timeDiff = due.getTime() - today.getTime();
+                            const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                            if (dayDiff === 0) {
+                                return "오늘";
+                            } else if (dayDiff === 1) {
+                                return "내일";
+                            } else {
+                                return `${dueDate}`;
+                            }
+                        }
+            
+                        // 미완료 게시글 처리
+                        const incompleteTbody = document.getElementById('posts-tbody');
+                        incompleteTbody.innerHTML = ''; // Clear existing posts
+
+                        data.incomplete_posts.forEach(post => {
+                            const tr = document.createElement('tr');
+                            tr.className = 'post-item';
+
+                            tr.innerHTML = `
+                                <td class="td1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16" style="margin-left: 15px; margin-bottom: 2px;">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    </svg>
+                                </td>
+                                <td class="td2" data-post-id="${post.id}">${post.content}</td>
+                                <td class="td3">${formatDueDate(post.due_date)}까지</td>
+                                <td class="td4">
+                                    ${post.priority ? `
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star-fill" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="${post.id}" data-priority="${post.priority}"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+                                    ` : `
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="${post.id}" data-priority="${post.priority}"><path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/></svg>
+                                    `}
+                                </td>
+                            `;
+
+                            incompleteTbody.appendChild(tr);
+                        });
+
+                        // 완료 게시글 처리
+                        const completedTbody = document.getElementById('completed-posts-tbody');
+                        completedTbody.innerHTML = '';
+
+                        data.completed_posts.forEach(post => {
+                            const tr = document.createElement('tr');
+                            tr.className = 'post-item';
+
+                            tr.innerHTML = `
+                                <td class="td1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                    </svg>
+                                </td>
+                                <td class="td2" data-post-id="${post.id}">${post.content}</td>
+                                <td class="td3">${formatDueDate(post.due_date)}까지</td>
+                                <td class="td4">
+                                    ${post.priority ? `
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star-fill" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="${post.id}" data-priority="${post.priority}"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+                                    ` : `
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="${post.id}" data-priority="${post.priority}"><path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/></svg>
+                                    `}
+                                </td>
+                            `;
+
+                            completedTbody.appendChild(tr);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching posts:', error));
+            });
+
+            const dateElement = document.querySelector('.text3');
+            
+            // 현재 날짜를 xx월 xx일, x요일 형식으로 반환한다.
+            function formatDate(date) {
+                const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+                const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const dayOfWeek = daysOfWeek[date.getDay()];
+                
+                return `${month} ${day}일, ${dayOfWeek}`;
+            }
+
+            const today = new Date();
+            dateElement.textContent = formatDate(today);
+
+            var dueDateInput = document.getElementById('due_date');
+        
+            // 현재 날짜를 로컬 시간대로 가져온다.
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = ('0' + (now.getMonth() + 1)).slice(-2);
+            var day = ('0' + now.getDate()).slice(-2);
+
+            var currentDate = `${year}-${month}-${day}`;
+            dueDateInput.setAttribute('min', currentDate);
+                
+        });
+    </script>
+</head>
+<body>
+    <div class="text-container">
+        <h6 class="text1"><a href="{% url 'post_list' %}" class="link">To Do</a></h6>
+        <div class="search-button-container">
+            <svg xmlns="http://www.w3.org/2000/svg" class="search-button" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+            {% csrf_token %}
+            <input type="text" id="search" name="search" class="search">
+        </div>
+        <p class="empty"></p>
+    </div>
+    <div class="text2-container">
+        <div class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
+        </div>
+        <div onclick="history.back();" class="page_cover"></div>
+        <div id="menu">
+            <ul class="nav">
+            <li><a href="{% url 'post_list' %}">오늘 할 일</a></li>
+            <li><a href="{% url 'important' %}">중요</a></li>
+            </ul>
+        <div onclick="history.back();" class="close">
+            <div class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+              </svg>
+            </div>
+        </div>
+        </div>
+        <h5 class="text2">오늘 할 일</h5>
+    </div>
+    <div class="text2-container">
+        <p style="margin-left: 31px; color: #6c757d;" class="text3"></p>
+    </div>
+    <div class="container-fluid">
+        <div class="input-container">
+            <form method="post" action="{% url 'add_todo' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                </svg>
+                {% csrf_token %}
+                <input type="text" id="content" name="content" class="input-work" placeholder="작업 추가">
+        </div>
+        <div class="add-button-container">
+            <input type="date" id="due_date" name="due_date" class="due_date">
+                <button type="submit" class="btn-primary">추가</button>
+            </form>
+        </div>
+        <table class="table table-dark table-striped">
+            <thead class="thead-container">
+                <tr>
+                    <th scope="col" class="thead1">미완료</th>
+                    <th scope="col" class="thead2">할 일</th>
+                    <th scope="col" class="thead3">기한</th>
+                    <th scope="col" class="thead4">중요도</th>
+                </tr>
+            </thead>
+            <tbody id="posts-tbody">
+                {% for post in posts %}
+                    {% if not post.is_completed %}
+                        <tr class="post-item">
+                            <td class="td1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16" style="margin-left: 15px; margin-bottom: 2px;" data-post-id="{{ post.id }}">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                </svg>
+                            </td>
+                            <td class="td2" data-post-id="{{ post.id }}">{{ post.content }}</td>
+                            <td class="td3">{{ post.due_date_display }}까지</td>
+                            <td class="td4">
+                                {% if post.priority %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star-fill" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="{{ post.id }}" data-priority="{{ post.priority }}">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="{{ post.id }}" data-priority="{{ post.priority }}">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                                    </svg>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text2-container toggle-completed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play rotate-up" viewBox="0 0 16 16">
+                <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+            </svg>
+            <h5 class="text4">완료됨</h5>
+        </div>
+        <table class="table table-dark table-striped completed-table">
+            <tbody id="completed-posts-tbody">
+                {% for post in posts %}
+                    {% if post.is_completed %}
+                        <tr class="post-item">
+                            <td class="td1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16" data-post-id="{{ post.id }}">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                            </td>
+                            <td class="td2" data-post-id="{{ post.id }}">{{ post.content }}</td>
+                            <td class="td3">{{ post.due_date_display }}까지</td>
+                            <td class="td4">
+                                {% if post.priority %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star-fill" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="{{ post.id }}" data-priority="{{ post.priority }}">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi star-icon bi-star" viewBox="0 0 16 16" style="margin-left: 18px; margin-bottom: 2px;" data-post-id="{{ post.id }}" data-priority="{{ post.priority }}">
+                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                                    </svg>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div id="side-menu">
+            <ul class="side-nav">
+                <div class="side-manu-div">
+                    <div id="side-menu-content"></div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
